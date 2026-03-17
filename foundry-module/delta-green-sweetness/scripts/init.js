@@ -49,9 +49,8 @@ async function populateSweetnessScenes() {
     ui.notifications.warn("Sweetness Scenes compendium is not empty. Clear it first if you want to re-populate.");
     return;
   }
-  const SceneDocument = pack.documentClass;
   for (const s of scenes) {
-    const doc = new SceneDocument({
+    await pack.documentClass.create({
       name: s.name,
       background: { src: s.img },
       width: s.width,
@@ -59,8 +58,7 @@ async function populateSweetnessScenes() {
       grid: { type: GRIDLESS },
       fog: { exploration: false },
       tokenVision: false
-    }, { pack: SCENES_PACK });
-    await pack.createDocument(doc);
+    }, { pack: pack.collection });
   }
   ui.notifications.info(`Created ${scenes.length} scene(s) in Sweetness Scenes.`);
 }
@@ -90,15 +88,13 @@ async function populateSweetnessNPCs() {
     ui.notifications.warn("Sweetness NPCs compendium is not empty. Clear it first if you want to re-populate.");
     return;
   }
-  const ActorDocument = pack.documentClass;
   for (const n of npcs) {
-    const doc = new ActorDocument({
+    await pack.documentClass.create({
       name: n.name,
       type: n.type || "npc",
       img: n.img || "",
       system: n.system || {}
-    }, { pack: NPCS_PACK });
-    await pack.createDocument(doc);
+    }, { pack: pack.collection });
   }
   ui.notifications.info(`Created ${npcs.length} NPC(s) in Sweetness NPCs.`);
 }
@@ -120,7 +116,7 @@ Hooks.once("init", () => {
 
 class PopulateSweetnessDialog extends FormApplication {
   static get defaultOptions() {
-    return mergeObject(super.defaultOptions, {
+    return foundry.utils.mergeObject(super.defaultOptions, {
       template: "modules/delta-green-sweetness/templates/populate.html",
       title: "Populate Sweetness Scenes",
       width: 400,
@@ -139,7 +135,7 @@ class PopulateSweetnessDialog extends FormApplication {
 
 class PopulateNpcsMenuDialog extends FormApplication {
   static get defaultOptions() {
-    return mergeObject(super.defaultOptions, {
+    return foundry.utils.mergeObject(super.defaultOptions, {
       template: "modules/delta-green-sweetness/templates/populate-npcs.html",
       title: "Populate Sweetness NPCs",
       width: 400,

@@ -26,7 +26,8 @@
       "name": "sweetness-npcs",
       "label": "Sweetness NPCs",
       "path": "packs/sweetness-npcs",
-      "type": "Actor"
+      "type": "Actor",
+      "system": "deltagreen"
     }
   ]
 }

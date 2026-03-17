@@ -98,7 +98,7 @@ def write_module_structure():
         "scripts": ["scripts/init.js"],
         "packs": [
             {"name": "sweetness-scenes", "label": "Sweetness Scenes", "path": "packs/sweetness-scenes", "type": "Scene"},
-            {"name": "sweetness-npcs", "label": "Sweetness NPCs", "path": "packs/sweetness-npcs", "type": "Actor"},
+            {"name": "sweetness-npcs", "label": "Sweetness NPCs", "path": "packs/sweetness-npcs", "type": "Actor", "system": "deltagreen"},
         ],
         "download": "https://YOUR_HOST/delta-green-sweetness-forge.zip",
     }
@@ -157,9 +157,8 @@ async function populateSweetnessScenes() {
     ui.notifications.warn("Sweetness Scenes compendium is not empty. Clear it first if you want to re-populate.");
     return;
   }
-  const SceneDocument = pack.documentClass;
   for (const s of scenes) {
-    const doc = new SceneDocument({
+    await pack.documentClass.create({
       name: s.name,
       background: { src: s.img },
       width: s.width,
@@ -167,8 +166,7 @@ async function populateSweetnessScenes() {
       grid: { type: GRIDLESS },
       fog: { exploration: false },
       tokenVision: false
-    }, { pack: SCENES_PACK });
-    await pack.createDocument(doc);
+    }, { pack: pack.collection });
   }
   ui.notifications.info(`Created ${scenes.length} scene(s) in Sweetness Scenes.`);
 }
@@ -198,15 +196,13 @@ async function populateSweetnessNPCs() {
     ui.notifications.warn("Sweetness NPCs compendium is not empty. Clear it first if you want to re-populate.");
     return;
   }
-  const ActorDocument = pack.documentClass;
   for (const n of npcs) {
-    const doc = new ActorDocument({
+    await pack.documentClass.create({
       name: n.name,
       type: n.type || "npc",
       img: n.img || "",
       system: n.system || {}
-    }, { pack: NPCS_PACK });
-    await pack.createDocument(doc);
+    }, { pack: pack.collection });
   }
   ui.notifications.info(`Created ${npcs.length} NPC(s) in Sweetness NPCs.`);
 }
@@ -228,7 +224,7 @@ Hooks.once("init", () => {
 
 class PopulateSweetnessDialog extends FormApplication {
   static get defaultOptions() {
-    return mergeObject(super.defaultOptions, {
+    return foundry.utils.mergeObject(super.defaultOptions, {
       template: "modules/delta-green-sweetness/templates/populate.html",
       title: "Populate Sweetness Scenes",
       width: 400,
@@ -247,7 +243,7 @@ class PopulateSweetnessDialog extends FormApplication {
 
 class PopulateNpcsMenuDialog extends FormApplication {
   static get defaultOptions() {
-    return mergeObject(super.defaultOptions, {
+    return foundry.utils.mergeObject(super.defaultOptions, {
       template: "modules/delta-green-sweetness/templates/populate-npcs.html",
       title: "Populate Sweetness NPCs",
       width: 400,
@@ -388,17 +384,22 @@ def main():
 
 
 def create_forge_zip():
-    """Create delta-green-sweetness-forge.zip excluding data JSON so the Import Wizard skips 0 files."""
+    """Create delta-green-sweetness-forge.zip excluding data JSON so the Import Wizard skips 0 files.
+    Empty directories (packs/sweetness-scenes, packs/sweetness-npcs) are included explicitly so
+    Foundry can initialise the LevelDB stores on first load."""
     exclude = {"scene-list.json", "sweetness-npcs.json"}
     zip_path = PROJECT_ROOT / "delta-green-sweetness-forge.zip"
     with zipfile.ZipFile(zip_path, "w", zipfile.ZIP_DEFLATED) as zf:
-        for f in MODULE_DIR.rglob("*"):
-            if f.is_dir():
+        for item in MODULE_DIR.rglob("*"):
+            arcname = item.relative_to(MODULE_DIR.parent)
+            if item.is_dir():
+                # Add a directory entry so empty dirs survive the zip round-trip
+                dir_entry = zipfile.ZipInfo(str(arcname).replace("\\", "/") + "/")
+                zf.writestr(dir_entry, "")
                 continue
-            arcname = f.relative_to(MODULE_DIR.parent)
-            if f.name in exclude:
+            if item.name in exclude:
                 continue
-            zf.write(f, arcname)
+            zf.write(item, arcname)
     print(f"[+] Forge-ready zip: {zip_path.name} (excluded {len(exclude)} data JSON so 0 files are skipped)")
 
 

@@ -185,7 +185,7 @@ def write_module_structure():
         "id": MODULE_ID,
         "title": "Delta Green: Sweetness",
         "description": "Scene pack for the Sweetness scenario (Black Sites). No grid, no fog, no token vision.",
-        "version": "1.0.0",
+        "version": "1.0.1",
         "compatibility": {"minimum": "13", "verified": "13"},
         "authors": [{"name": "Delta Green Sweetness"}],
         "scripts": ["scripts/init.js"],

@@ -100,7 +100,8 @@ def write_module_structure():
             {"name": "sweetness-scenes", "label": "Sweetness Scenes", "path": "packs/sweetness-scenes", "type": "Scene"},
             {"name": "sweetness-npcs", "label": "Sweetness NPCs", "path": "packs/sweetness-npcs", "type": "Actor", "system": "deltagreen"},
         ],
-        "download": "https://YOUR_HOST/delta-green-sweetness-forge.zip",
+        "manifest": "https://raw.githubusercontent.com/Oftatkofta/PDF_image_extractor/master/foundry-module/delta-green-sweetness/module.json",
+        "download": "https://github.com/Oftatkofta/PDF_image_extractor/releases/latest/download/delta-green-sweetness-forge.zip",
     }
     (MODULE_DIR / "module.json").write_text(json.dumps(module_json, indent=2), encoding="utf-8")
     print(f"[+] Wrote {(MODULE_DIR / 'module.json').relative_to(PROJECT_ROOT)}")

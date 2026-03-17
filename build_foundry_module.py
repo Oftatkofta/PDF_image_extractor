@@ -21,13 +21,80 @@ MODULE_ID = "delta-green-sweetness"
 
 ACTORS_FILES = ("actors.txt",)
 
+# Maps text skill names (lowercase) to Delta Green FoundryVTT system keys
+SKILL_NAME_MAP = {
+    "accounting": "accounting",
+    "alertness": "alertness",
+    "anthropology": "anthropology",
+    "archeology": "archeology",
+    "artillery": "artillery",
+    "athletics": "athletics",
+    "bureaucracy": "bureaucracy",
+    "computer science": "computer_science",
+    "criminology": "criminology",
+    "demolitions": "demolitions",
+    "disguise": "disguise",
+    "dodge": "dodge",
+    "drive": "drive",
+    "driving": "drive",
+    "firearms": "firearms",
+    "first aid": "first_aid",
+    "forensics": "forensics",
+    "heavy machinery": "heavy_machiner",
+    "heavy weapons": "heavy_weapons",
+    "history": "history",
+    "humint": "humint",
+    "law": "law",
+    "medicine": "medicine",
+    "melee weapons": "melee_weapons",
+    "navigate": "navigate",
+    "occult": "occult",
+    "persuade": "persuade",
+    "pharmacy": "pharmacy",
+    "psychotherapy": "psychotherapy",
+    "ride": "ride",
+    "search": "search",
+    "sigint": "sigint",
+    "stealth": "stealth",
+    "surgery": "surgery",
+    "survival": "survival",
+    "swim": "swim",
+    "unarmed combat": "unarmed_combat",
+    "unnatural": "unnatural",
+}
+
+SKILL_LABELS = {
+    "computer_science": "Computer Science",
+    "first_aid": "First Aid",
+    "heavy_machiner": "Heavy Machinery",
+    "heavy_weapons": "Heavy Weapons",
+    "humint": "HUMINT",
+    "melee_weapons": "Melee Weapons",
+    "sigint": "SIGINT",
+    "unarmed_combat": "Unarmed Combat",
+}
+
 
 def _collapse_newlines(s: str) -> str:
     return " ".join(s.split())
 
 
+def _parse_skills(skills_text: str) -> tuple[dict, list[str]]:
+    """Parse 'Skill Name XX%, ...' into ({system_key: proficiency}, [unrecognised entries])."""
+    known, unknown = {}, []
+    for m in re.finditer(r"([A-Za-z][A-Za-z\s]*?)\s+(\d+)%", skills_text):
+        name = m.group(1).strip().lower()
+        val = int(m.group(2))
+        key = SKILL_NAME_MAP.get(name)
+        if key:
+            known[key] = val
+        else:
+            unknown.append(f"{m.group(1).strip()} {val}%")
+    return known, unknown
+
+
 def parse_actors_file(path: Path) -> list[dict]:
-    """Parse actors.txt: name, 2 lines stats, SKILLS:, ATTACKS:, then ALL-CAPS: property blocks. Remove linebreaks in property text."""
+    """Parse actors.txt into NPC dicts matching the Delta Green FoundryVTT system schema."""
     text = path.read_text(encoding="utf-8")
     blocks = re.split(r"\n\s*\n", text)
     npcs = []
@@ -43,38 +110,64 @@ def parse_actors_file(path: Path) -> list[dict]:
         stat_line_2 = lines[2]
         rest = "\n".join(lines[3:])
 
-        # Parse attributes from "STR 12 CON 7 ..." and "HP 10 WP 9 SAN 0"
+        # Parse stats: "STR 12 CON 7 ..." and "HP 10 WP 9 SAN 0"
         attrs = {}
         for m in re.finditer(r"(STR|CON|DEX|INT|POW|CHA)\s+(\d+)", stat_line_1, re.I):
             attrs[m.group(1).lower()] = int(m.group(2))
         for m in re.finditer(r"(HP|WP|SAN)\s+(\d+)", stat_line_2, re.I):
             attrs[m.group(1).lower()] = int(m.group(2))
 
-        # Split rest by ALL-CAPS label: (SKILLS:, ATTACKS:, GRAB:, THE HOST:, etc.)
-        section_pattern = re.compile(r"([A-Z][A-Z0-9\s]+):\s*", re.MULTILINE)
-        sections = []  # (label, content_start, match_start for next)
+        # Split rest into ALL-CAPS labelled sections
+        section_pattern = re.compile(r"^([A-Z][A-Z0-9 ]+):\s*", re.MULTILINE)
+        sections = []
         for m in section_pattern.finditer(rest):
-            label = m.group(1).strip().rstrip(":")
-            sections.append((label, m.end(), m.start()))
-        # Text for section i: from content_start until next section's match_start
-        bio_parts = []
+            sections.append((m.group(1).strip(), m.end(), m.start()))
+
+        skills_data, notes_parts = {}, []
         for i, (label, content_start, _) in enumerate(sections):
             end = sections[i + 1][2] if i + 1 < len(sections) else len(rest)
             chunk = rest[content_start:end].strip()
             if not chunk:
                 continue
             flat = _collapse_newlines(chunk)
-            bio_parts.append(f"{label}: {flat}")
+            if label == "SKILLS":
+                known, unknown = _parse_skills(flat)
+                skills_data.update(known)
+                if unknown:
+                    notes_parts.append(f"SKILLS (non-standard): {', '.join(unknown)}")
+            else:
+                notes_parts.append(f"{label}: {flat}")
 
-        biography = "\n\n".join(bio_parts)
+        # Build system object matching Delta Green FoundryVTT schema
+        hp = attrs.get("hp", 10)
+        wp_val = attrs.get("wp", 10)
+        san_val = attrs.get("san", 100)
+        statistics = {
+            stat: {"value": attrs[stat], "distinguishing_feature": ""}
+            for stat in ("str", "con", "dex", "int", "pow", "cha")
+            if stat in attrs
+        }
+        skills = {
+            key: {
+                "proficiency": val,
+                "label": SKILL_LABELS.get(key, key.replace("_", " ").title()),
+                "failure": False,
+            }
+            for key, val in skills_data.items()
+        }
 
         npcs.append({
             "name": name,
             "type": "npc",
             "img": "",
             "system": {
-                "attributes": attrs,
-                "biography": biography,
+                "statistics": statistics,
+                "health": {"min": 0, "value": hp, "max": hp},
+                "wp": {"min": 0, "value": wp_val, "max": wp_val},
+                "sanity": {"value": san_val, "currentBreakingPoint": san_val + 1},
+                "skills": skills,
+                "notes": "\n\n".join(notes_parts),
+                "shortDescription": "",
             },
         })
     return npcs

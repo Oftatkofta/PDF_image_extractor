@@ -4,18 +4,120 @@
     "type": "npc",
     "img": "",
     "system": {
-      "attributes": {
-        "str": 12,
-        "con": 7,
-        "dex": 10,
-        "int": 14,
-        "pow": 9,
-        "cha": 9,
-        "hp": 10,
-        "wp": 9,
-        "san": 0
+      "statistics": {
+        "str": {
+          "value": 12,
+          "distinguishing_feature": ""
+        },
+        "con": {
+          "value": 7,
+          "distinguishing_feature": ""
+        },
+        "dex": {
+          "value": 10,
+          "distinguishing_feature": ""
+        },
+        "int": {
+          "value": 14,
+          "distinguishing_feature": ""
+        },
+        "pow": {
+          "value": 9,
+          "distinguishing_feature": ""
+        },
+        "cha": {
+          "value": 9,
+          "distinguishing_feature": ""
+        }
       },
-      "biography": "SKILLS: Alertness 45%, Athletics 30%, Bureaucracy 45%, Criminology 35%, Dodge 55%, Driving 55%, Firearms 45%, First Aid 25%, Forensics 30%, Law 25%, Persuade 45%, Stealth 35%, Search 60%, Unarmed Combat 45%.\n\nATTACKS: Charter Arms \u201cBulldog\u201d revolver (.357 magnum, 5 shots) 45%, damage 1D12. Unarmed 45%, damage 1D4\u22121."
+      "health": {
+        "min": 0,
+        "value": 10,
+        "max": 10
+      },
+      "wp": {
+        "min": 0,
+        "value": 9,
+        "max": 9
+      },
+      "sanity": {
+        "value": 0,
+        "currentBreakingPoint": 1
+      },
+      "skills": {
+        "alertness": {
+          "proficiency": 45,
+          "label": "Alertness",
+          "failure": false
+        },
+        "athletics": {
+          "proficiency": 30,
+          "label": "Athletics",
+          "failure": false
+        },
+        "bureaucracy": {
+          "proficiency": 45,
+          "label": "Bureaucracy",
+          "failure": false
+        },
+        "criminology": {
+          "proficiency": 35,
+          "label": "Criminology",
+          "failure": false
+        },
+        "dodge": {
+          "proficiency": 55,
+          "label": "Dodge",
+          "failure": false
+        },
+        "drive": {
+          "proficiency": 55,
+          "label": "Drive",
+          "failure": false
+        },
+        "firearms": {
+          "proficiency": 45,
+          "label": "Firearms",
+          "failure": false
+        },
+        "first_aid": {
+          "proficiency": 25,
+          "label": "First Aid",
+          "failure": false
+        },
+        "forensics": {
+          "proficiency": 30,
+          "label": "Forensics",
+          "failure": false
+        },
+        "law": {
+          "proficiency": 25,
+          "label": "Law",
+          "failure": false
+        },
+        "persuade": {
+          "proficiency": 45,
+          "label": "Persuade",
+          "failure": false
+        },
+        "stealth": {
+          "proficiency": 35,
+          "label": "Stealth",
+          "failure": false
+        },
+        "search": {
+          "proficiency": 60,
+          "label": "Search",
+          "failure": false
+        },
+        "unarmed_combat": {
+          "proficiency": 45,
+          "label": "Unarmed Combat",
+          "failure": false
+        }
+      },
+      "notes": "ATTACKS: Charter Arms \u201cBulldog\u201d revolver (.357 magnum, 5 shots) 45%, damage 1D12. Unarmed 45%, damage 1D4\u22121.",
+      "shortDescription": ""
     }
   },
   {
@@ -23,16 +125,45 @@
     "type": "npc",
     "img": "",
     "system": {
-      "attributes": {
-        "str": 22,
-        "con": 30,
-        "dex": 13,
-        "int": 7,
-        "pow": 10,
-        "hp": 26,
-        "wp": 10
+      "statistics": {
+        "str": {
+          "value": 22,
+          "distinguishing_feature": ""
+        },
+        "con": {
+          "value": 30,
+          "distinguishing_feature": ""
+        },
+        "dex": {
+          "value": 13,
+          "distinguishing_feature": ""
+        },
+        "int": {
+          "value": 7,
+          "distinguishing_feature": ""
+        },
+        "pow": {
+          "value": 10,
+          "distinguishing_feature": ""
+        }
       },
-      "biography": "SKILLS: Jumping 45%, Swimming Through Air 75%.\n\nATTACKS: Grab 50%, damage special.\n\nGRAB: If the Shadowman grabs a victim, it swims toward the nearest Portal. Once per turn, the victim may attempt a STR test against the Shadowman\u2019s STR to break free. So can each helper trying to pull the victim free. If the attempt fails, it does not slow the Shadowman and the victim at all.\n\nTHE HOST: If the Stone of Yos is occupied, the Shadowman\u2019s INT, POW, WP, and SAN scores are those of the occupant, and it knows languages known by the host.\n\nTHE NAME: The creatures\u2019 chief vulnerability is the name of YogSothoth. Whispering the name is enough to inflict 1 damage on the creature. Saying it inflicts 1D4. Screaming it, 1D20. If the Shadowman hits 0 HP, it is dismissed it as if it had traveled through a Portal, though it may return. And you can bet anyone who knows that name will not see it coming a second time....\n\nPORTALS: Any reflective surface can be used by the Shadowman as a portal for escape. The Shadowman\u2019s form must obey the proportions of the surface, so it must be of sufficient size (no leaping into a fork). It typically manifests through mirrors, but a window seen from inside a bright room at night would also work. Whenever the Shadowman moves into a portal, Sarah Garrison loses control of it, and must reenter the Stone of Yos to establish a new connection. It takes her 1D20 minutes to regain control and move the Shadowman back to the Bernier house.\n\nSWIMMING: The Shadowman moves through the air as if it were water. It swims about as fast as a human walks. It can swim upwards, drift down, and float indefinitely in space. Seeing this strange movement for the first time costs 0/1 SAN. When the Shadowman alights on a floor, it can move as a normal human, but always seems to be working against some sort of invisible force of resistance.\n\nTRANSCENDENT: The Shadowman is immune to all physical attacks. Period.\n\nVANISH: In direct sunlight, or when hit with a high intensity illumination device, the Shadowman collapses instantly into a tiny mote of darkness, like a magic trick. Seeing this for the first time costs 1/1D4 SAN. It is very easy to assume it has teleported away. However, with a successful Search roll, this shadow is still visible as a tiny blob of impossible darkness. Hitting it again with a burst of such bright light causes the creature to retreat to a Portal.\n\nSAN LOSS: 1/1D4."
+      "health": {
+        "min": 0,
+        "value": 26,
+        "max": 26
+      },
+      "wp": {
+        "min": 0,
+        "value": 10,
+        "max": 10
+      },
+      "sanity": {
+        "value": 100,
+        "currentBreakingPoint": 101
+      },
+      "skills": {},
+      "notes": "SKILLS (non-standard): Jumping 45%, Swimming Through Air 75%\n\nATTACKS: Grab 50%, damage special.\n\nGRAB: If the Shadowman grabs a victim, it swims toward the nearest Portal. Once per turn, the victim may attempt a STR test against the Shadowman\u2019s STR to break free. So can each helper trying to pull the victim free. If the attempt fails, it does not slow the Shadowman and the victim at all.\n\nTHE HOST: If the Stone of Yos is occupied, the Shadowman\u2019s INT, POW, WP, and SAN scores are those of the occupant, and it knows languages known by the host.\n\nTHE NAME: The creatures\u2019 chief vulnerability is the name of YogSothoth. Whispering the name is enough to inflict 1 damage on the creature. Saying it inflicts 1D4. Screaming it, 1D20. If the Shadowman hits 0 HP, it is dismissed it as if it had traveled through a Portal, though it may return. And you can bet anyone who knows that name will not see it coming a second time....\n\nPORTALS: Any reflective surface can be used by the Shadowman as a portal for escape. The Shadowman\u2019s form must obey the proportions of the surface, so it must be of sufficient size (no leaping into a fork). It typically manifests through mirrors, but a window seen from inside a bright room at night would also work. Whenever the Shadowman moves into a portal, Sarah Garrison loses control of it, and must reenter the Stone of Yos to establish a new connection. It takes her 1D20 minutes to regain control and move the Shadowman back to the Bernier house.\n\nSWIMMING: The Shadowman moves through the air as if it were water. It swims about as fast as a human walks. It can swim upwards, drift down, and float indefinitely in space. Seeing this strange movement for the first time costs 0/1 SAN. When the Shadowman alights on a floor, it can move as a normal human, but always seems to be working against some sort of invisible force of resistance.\n\nTRANSCENDENT: The Shadowman is immune to all physical attacks. Period.\n\nVANISH: In direct sunlight, or when hit with a high intensity illumination device, the Shadowman collapses instantly into a tiny mote of darkness, like a magic trick. Seeing this for the first time costs 1/1D4 SAN. It is very easy to assume it has teleported away. However, with a successful Search roll, this shadow is still visible as a tiny blob of impossible darkness. Hitting it again with a burst of such bright light causes the creature to retreat to a Portal.\n\nSAN LOSS: 1/1D4.",
+      "shortDescription": ""
     }
   }
 ]

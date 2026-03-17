@@ -1,0 +1,32 @@
+{
+  "id": "delta-green-sweetness",
+  "title": "Delta Green: Sweetness",
+  "description": "Scene pack for the Sweetness scenario (Black Sites). No grid, no fog, no token vision.",
+  "version": "1.0.0",
+  "compatibility": {
+    "minimum": "13",
+    "verified": "13"
+  },
+  "authors": [
+    {
+      "name": "Delta Green Sweetness"
+    }
+  ],
+  "scripts": [
+    "scripts/init.js"
+  ],
+  "packs": [
+    {
+      "name": "sweetness-scenes",
+      "label": "Sweetness Scenes",
+      "path": "packs/sweetness-scenes",
+      "type": "Scene"
+    },
+    {
+      "name": "sweetness-npcs",
+      "label": "Sweetness NPCs",
+      "path": "packs/sweetness-npcs",
+      "type": "Actor"
+    }
+  ]
+}

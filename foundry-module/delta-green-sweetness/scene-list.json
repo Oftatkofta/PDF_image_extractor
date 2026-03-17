@@ -1,0 +1,38 @@
+[
+  {
+    "name": "Bernier house",
+    "img": "modules/delta-green-sweetness/assets/Bernier_house.png",
+    "width": 1006,
+    "height": 1277
+  },
+  {
+    "name": "Garrison appartment note",
+    "img": "modules/delta-green-sweetness/assets/Garrison_appartment_note.jpeg",
+    "width": 1046,
+    "height": 545
+  },
+  {
+    "name": "Invite",
+    "img": "modules/delta-green-sweetness/assets/Invite.png",
+    "width": 1024,
+    "height": 1536
+  },
+  {
+    "name": "Sarah Garrison",
+    "img": "modules/delta-green-sweetness/assets/Sarah_Garrison.jpeg",
+    "width": 976,
+    "height": 512
+  },
+  {
+    "name": "sweetness cover",
+    "img": "modules/delta-green-sweetness/assets/sweetness_cover.jpeg",
+    "width": 1243,
+    "height": 1620
+  },
+  {
+    "name": "The Mark",
+    "img": "modules/delta-green-sweetness/assets/The_Mark.jpeg",
+    "width": 475,
+    "height": 1238
+  }
+]

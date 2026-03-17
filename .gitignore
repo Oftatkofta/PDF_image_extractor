@@ -1,0 +1,35 @@
+# Extracted output directories
+Agents_handbook/
+ars_goetia/
+Black_sites/
+Control_Group/
+Handlers_guide/
+Impossible_Landscapes/
+Static_Protocol/
+a_night_at_the_opera/
+the_conspiracy/
+sweetness/
+merged_pages/
+output/
+foundry-module/delta-green-sweetness/assets/
+
+# Extracted images at repo root
+Clythe_B.png
+
+# PDFs and source media
+*.pdf
+*.webp
+
+# Forge zip
+*.zip
+
+# Python
+__pycache__/
+*.pyc
+*.pyo
+.venv/
+venv/
+
+# OS
+.DS_Store
+Thumbs.db
